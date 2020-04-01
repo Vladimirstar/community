@@ -1,10 +1,7 @@
 package life.majiang.community.mapper;
 
 import life.majiang.community.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 /**
  * @author zxh
@@ -31,4 +28,21 @@ public interface UserMapper {
 
     @Select("select * from user where id = #{id}")
     User findById(@Param("id") Integer id);
+
+    /**
+     * 根据AccountId查询用户
+     *
+     * @param accountId github返回的用户唯一标识
+     * @return
+     */
+    @Select("select * from user where account_id = #{accountId}")
+    User findByAccountId(@Param("accountId") String accountId);
+
+    /**
+     * 更新用户信息
+     *
+     * @param dbUser
+     */
+    @Update("update user set name = #{name},token = #{token},gmt_modified = #{gmtModified},avatar_url = #{avatarUrl} where id = #{id}")
+    void update(User dbUser);
 }

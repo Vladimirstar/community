@@ -1,10 +1,7 @@
 package life.majiang.community.mapper;
 
 import life.majiang.community.model.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -57,6 +54,14 @@ public interface QuestionMapper {
     @Select("select count(*) from question where creator = #{userId}")
     Integer countByUserId(@Param("userId") Integer userId);
 
-    @Select("select count(*) from question where id = #{id}")
+    @Select("select * from question where id = #{id}")
     Question getById(@Param("id") Integer id);
+
+    /**
+     * 更新问题
+     *
+     * @param question
+     */
+    @Update("update question set title = #{title},description = #{description},gmt_modified = #{gmtModified},tag = #{tag}")
+    void update(Question question);
 }

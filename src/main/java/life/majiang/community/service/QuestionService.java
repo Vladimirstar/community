@@ -33,11 +33,11 @@ public class QuestionService {
             totalPage = totalCount / size + 1;
         }
 
-        if (page < 1) {
-            page = 1;
-        }
         if (page > totalPage) {
             page = totalPage;
+        }
+        if (page <= 1) {
+            page = 1;
         }
         paginationDTO.setPagination(totalPage, page);
 
@@ -95,7 +95,27 @@ public class QuestionService {
         Question question = questionMapper.getById(id);
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
+        User user = userMapper.findById(question.getCreator());
+        questionDTO.setUser(user);
         return questionDTO;
 
+    }
+
+    /**
+     * 新增或更新
+     *
+     * @param question
+     */
+    public void createOrUpdate(Question question) {
+        if (question.getId() == null) {
+            //创建
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(question.getGmtCreate());
+            questionMapper.create(question);
+        } else {
+            //更新
+            question.setGmtModified(question.getGmtCreate());
+            questionMapper.update(question);
+        }
     }
 }
