@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
+ * 页面报错异常处理
+ *
  * @author zxh
  * @version 1.0
  * @date 2020/4/2 14:02
