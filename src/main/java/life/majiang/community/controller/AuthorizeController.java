@@ -2,7 +2,6 @@ package life.majiang.community.controller;
 
 import life.majiang.community.dto.AccessTokenDTO;
 import life.majiang.community.dto.GithubUser;
-import life.majiang.community.mapper.UserMapper;
 import life.majiang.community.model.User;
 import life.majiang.community.provider.GithubProvider;
 import life.majiang.community.service.UserService;
@@ -33,8 +32,6 @@ public class AuthorizeController {
     @Value("${github.client.redirect.uri}")
     private String clientRedirectUri;
 
-    @Autowired
-    private UserMapper userMapper;
     @Autowired
     private UserService userService;
 

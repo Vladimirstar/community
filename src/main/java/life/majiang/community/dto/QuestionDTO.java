@@ -17,11 +17,11 @@ public class QuestionDTO {
 
     private Integer creator;
 
-    private String commentCount;
+    private Integer commentCount;
 
-    private String viewCount;
+    private Integer viewCount;
 
-    private String likeCount;
+    private Integer likeCount;
 
     private String tag;
 
