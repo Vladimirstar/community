@@ -8,13 +8,11 @@ package life.majiang.community.exception;
  * @date 2020/4/2 14:29
  */
 public class CustomizeException extends RuntimeException {
+    private Integer code;
     private String message;
 
-    public CustomizeException(String message) {
-        this.message = message;
-    }
-
     public CustomizeException(ICustomizeErrorCode errorCode) {
+        this.code = errorCode.getCode();
         this.message = errorCode.getMessage();
     }
 
@@ -23,4 +21,7 @@ public class CustomizeException extends RuntimeException {
         return message;
     }
 
+    public Integer getCode() {
+        return code;
+    }
 }
