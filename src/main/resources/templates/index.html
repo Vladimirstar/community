@@ -10,6 +10,16 @@
     <script type="application/javascript" src="js/jquery-3.4.1.min.js" ></script>
     <script type="application/javascript" src="js/bootstrap.min.js" ></script>
 </head>
+<script type="application/javascript">
+    //判断是否需要关闭改窗口（用于重新登录）
+    window.onload = function () {
+        var closable = window.localStorage.getItem("closable");
+        if (closable == "true") {
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
+    }
+</script>
 <body>
 <div th:insert="navigation::nav"></div>
 <div class="container-fluid main">
