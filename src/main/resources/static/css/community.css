@@ -101,6 +101,22 @@ body {
     color: #499cf3;
 }
 
-.question_title {
+.question-title {
     margin-top: 25px;
+}
+
+.question-tag {
+    margin-right: 5px;
+}
+
+.question-related {
+    padding-left: 0;
+    list-style: none;
+    margin-left: 0;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+.wechat {
+    width: 100%;
 }

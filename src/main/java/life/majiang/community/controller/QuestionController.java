@@ -35,13 +35,17 @@ public class QuestionController {
      */
     @GetMapping("/question/{id}")
     public String question(@PathVariable(name = "id") Integer id, Model model) {
+        //问题详情
         QuestionDTO questionDTO = questionService.getById(id);
-
+        //相关问题
+        List<QuestionDTO> relationQuestions = questionService.selectRelate(questionDTO);
+        //评论列表
         List<CommentDTO> comments = commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
         //累加阅读数
         questionService.incView(id);
         model.addAttribute("question", questionDTO);
         model.addAttribute("comments", comments);
+        model.addAttribute("relationQuestions", relationQuestions);
         return "question";
     }
 }
