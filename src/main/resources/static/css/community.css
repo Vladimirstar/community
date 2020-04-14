@@ -120,3 +120,16 @@ body {
 .wechat {
     width: 100%;
 }
+
+.publish-tag-tab {
+    display: none;
+    margin-top: 10px;
+}
+
+.publish-tag-tab .label-info {
+    margin-right: 10px;
+}
+
+.publish-tag-tab .tab-content {
+    padding-top: 10px;
+}
