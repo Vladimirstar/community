@@ -44,6 +44,12 @@ public class TagCache {
         return tagDTOS;
     }
 
+    /**
+     * 验证不合法的标签
+     *
+     * @param tags
+     * @return
+     */
     public static String filterInvaild(String tags) {
         String[] split = StringUtils.split(tags, ',');
         List<TagDTO> tagDTOS = get();

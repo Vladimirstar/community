@@ -3,6 +3,7 @@ package life.majiang.community.interceptor;
 import life.majiang.community.mapper.UserMapper;
 import life.majiang.community.model.User;
 import life.majiang.community.model.UserExample;
+import life.majiang.community.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -22,6 +23,8 @@ public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private NotificationService notificationService;
     /**
      * 在请求前判断是否存在cookie
      *
@@ -44,6 +47,9 @@ public class SessionInterceptor implements HandlerInterceptor {
                     //cookie中的token中在数据库找到用户信息，就存入session
                     if (user.size() != 0) {
                         request.getSession().setAttribute("user", user.get(0));
+                        //把未读通知放入到session
+                        Long unreadCount = notificationService.unreadCount(user.get(0).getId());
+                        request.getSession().setAttribute("unreadCount", unreadCount);
                     }
                     break;
                 }

@@ -2,6 +2,8 @@ package life.majiang.community.service;
 
 import life.majiang.community.dto.CommentDTO;
 import life.majiang.community.enums.CommentTypeEnum;
+import life.majiang.community.enums.NotificationStatusEnum;
+import life.majiang.community.enums.NotificationTypeEnum;
 import life.majiang.community.exception.CustomizeErrorCode;
 import life.majiang.community.exception.CustomizeException;
 import life.majiang.community.mapper.*;
@@ -40,13 +42,16 @@ public class CommentService {
     @Autowired
     private CommentExtMapper commentExtMapper;
 
+    @Autowired
+    private NotificationMapper notificationMapper;
+
     /**
      * 新增评论
      *
      * @param comment
      */
     @Transactional(rollbackFor = Exception.class)
-    public void insert(Comment comment) {
+    public void insert(Comment comment, User commentator) {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
         }
@@ -55,10 +60,15 @@ public class CommentService {
         }
 
         if (comment.getType().equals(CommentTypeEnum.COMMENT.getType())) {
-            //回复评论
+            //回复的评论
             Comment dbComment = commentMapper.selectByPrimaryKey(comment.getParentId());
             if (dbComment == null) {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
+            }
+            //查询该回复所在的问题
+            Question question = questionMapper.selectByPrimaryKey(dbComment.getParentId().intValue());
+            if (question == null) {
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
             commentMapper.insert(comment);
             //增加回复的评论数
@@ -66,6 +76,8 @@ public class CommentService {
             parentComment.setId(comment.getParentId());
             parentComment.setCommentCount(1L);
             commentExtMapper.incCommentCount(parentComment);
+            //创建评论回复通知
+            createNotify(comment, Long.valueOf(dbComment.getCommentator()), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_COMMENT, Long.valueOf(question.getId()));
 
         } else {
             //回复问题
@@ -77,7 +89,31 @@ public class CommentService {
             //增加问题评论数
             question.setCommentCount(1);
             questionExtMapper.incCommentCount(question);
+            //创建问题回复通知
+            createNotify(comment, Long.valueOf(question.getCreator()), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_QUESTION, Long.valueOf(question.getId()));
         }
+    }
+
+    /**
+     * 创建通知
+     *
+     * @param comment
+     * @param receiver
+     * @param notifierName
+     * @param outerTitle
+     * @param notificationType
+     */
+    private void createNotify(Comment comment, Long receiver, String notifierName, String outerTitle, NotificationTypeEnum notificationType, Long outerId) {
+        Notification notification = new Notification();
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setType(notificationType.getType());
+        notification.setOuterId(outerId);
+        notification.setNotifier(Long.valueOf(comment.getCommentator()));
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notification.setReceiver(receiver);
+        notification.setNotifierName(notifierName);
+        notification.setOuterTitle(outerTitle);
+        notificationMapper.insert(notification);
     }
 
     /**
