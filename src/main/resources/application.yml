@@ -15,7 +15,7 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true #自动把字段的下划线转换成驼峰
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql语句
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql语句
     jdbc-type-for-null: null
   type-aliases-package: life.majiang.community.mapper
   mapper-locations: classpath:mapper/*.xml
