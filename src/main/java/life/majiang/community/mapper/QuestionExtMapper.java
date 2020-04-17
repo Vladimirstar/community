@@ -1,5 +1,6 @@
 package life.majiang.community.mapper;
 
+import life.majiang.community.dto.QuestionQueryDTO;
 import life.majiang.community.model.Question;
 
 import java.util.List;
@@ -29,4 +30,20 @@ public interface QuestionExtMapper {
      * @return
      */
     List<Question> selectRelate(Question question);
+
+    /**
+     * 搜索问题的总数
+     *
+     * @param questionQueryDTO
+     * @return
+     */
+    Integer countBySearch(QuestionQueryDTO questionQueryDTO);
+
+    /**
+     * 查询相关关键字问题
+     *
+     * @param questionQueryDTO
+     * @return
+     */
+    List<Question> selectBySearch(QuestionQueryDTO questionQueryDTO);
 }
