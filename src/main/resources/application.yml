@@ -23,3 +23,8 @@ mybatis:
     jdbc-type-for-null: null
   type-aliases-package: life.majiang.community.mapper
   mapper-locations: classpath:mapper/*.xml
+logging:
+  file: log/community.log
+  level:
+    root: info
+    life.majiang.community.mapper: debug
