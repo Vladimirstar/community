@@ -14,6 +14,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private SessionInterceptor sessionInterceptor;
 
+    /**
+     * 图片路径
+     */
     @Value("${location.upload.resource}")
     private String resourceLocations;
 
@@ -30,7 +33,6 @@ public class WebConfig implements WebMvcConfigurer {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        System.err.println(resourceLocations);
         registry.addResourceHandler("/upload/**").addResourceLocations(resourceLocations);
     }
 }

@@ -31,4 +31,4 @@ logging:
 #图片保存路径
 location:
   upload:
-    resource: "file:\\IdeaProjects\\community\\src\\main\\resources\\static\\upload\\"
+    resource: file:\\IdeaProjects\\community\\src\\main\\resources\\static\\upload\\
