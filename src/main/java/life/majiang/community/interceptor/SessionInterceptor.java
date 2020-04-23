@@ -1,8 +1,10 @@
 package life.majiang.community.interceptor;
 
+import life.majiang.community.enums.AdPosEnum;
 import life.majiang.community.mapper.UserMapper;
 import life.majiang.community.model.User;
 import life.majiang.community.model.UserExample;
+import life.majiang.community.service.AdService;
 import life.majiang.community.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,9 @@ public class SessionInterceptor implements HandlerInterceptor {
 
     @Autowired
     private NotificationService notificationService;
+
+    @Autowired
+    private AdService adService;
     /**
      * 在请求前判断是否存在cookie
      *
@@ -36,6 +41,10 @@ public class SessionInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        //没有登录也能查看导航
+        for (AdPosEnum adPos : AdPosEnum.values()) {
+            request.getServletContext().setAttribute(adPos.name(), adService.list(adPos.name()));
+        }
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length != 0) {
             for (Cookie cookie : cookies) {

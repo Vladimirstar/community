@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="side">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 side">
+        <h4>码问官方公众号</h4>
+        <img src="/img/wechat.png" alt="" class="img-thumbnail question-wechat">
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 side"
+         th:each="ad : ${#httpServletRequest.getServletContext().getAttribute('SIDE')}">
+        <a th:href="${ad.url}" target="_blank">
+            <img th:src="${ad.image}" class="img-thumbnail img-thumbnail question-wechat">
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

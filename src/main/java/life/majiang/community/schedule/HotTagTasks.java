@@ -56,14 +56,14 @@ public class HotTagTasks {
             offset += limit;
         }
         hotTagCache.setTags(priorities);
-        hotTagCache.getTags().forEach(
-                (k, v) -> {
-                    System.out.print(k);
-                    System.out.print(":");
-                    System.out.print(v);
-                    System.out.println();
-                }
-        );
+//        hotTagCache.getTags().forEach(
+//                (k, v) -> {
+//                    System.out.print(k);
+//                    System.out.print(":");
+//                    System.out.print(v);
+//                    System.out.println();
+//                }
+//        );
         hotTagCache.updateTag(priorities);
         log.info("hotTagSchedule stop {}", new Date());
     }
